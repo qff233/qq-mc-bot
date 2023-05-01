@@ -26,6 +26,8 @@ pub async fn on_result(result: &EventResult) -> anyhow::Result<bool> {
 
 #[tokio::main]
 async fn main() {
+    let modules = vec![ping_module::module()];
+    
     init_tracing_subscriber();
     let client = ClientBuilder::new()
         .authentication(Authentication::QRCode)
@@ -33,7 +35,7 @@ async fn main() {
         .device(DeviceSource::JsonFile("device.json".to_owned()))
         .version(&ANDROID_WATCH)
         .session_store(FileSessionStore::boxed("session.token"))
-        .modules(vec![ping_module::module()])
+        .modules(modules)
         .result_handlers(vec![on_result {}.into()])
         .build()
         .await
