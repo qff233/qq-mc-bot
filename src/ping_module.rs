@@ -275,6 +275,8 @@ async fn mc_ping(event: &GroupMessageEvent, host: String) -> anyhow::Result<bool
                         .await?;
                 }
             }
+        } else {
+            event.send_message_to_source(data.parse_message_chain()).await?;
         }
     }
     Ok(true)

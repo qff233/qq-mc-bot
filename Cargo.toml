@@ -4,11 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "qq-bot"
-path = "src/main.rs"
+name = "qq-bot-qr"
+path = "src/qr-main.rs"
+
+[[bin]]
+name = "qq-bot-password"
+path = "src/password-main.rs"
 
 [dependencies]
-proc_qq = { git = "https://github.com/niuhuan/rust_proc_qq.git", branch = "next" }
+proc_qq = { git = "https://github.com/niuhuan/rust_proc_qq.git", branch = "master" }
 tracing = "0.1"
 tracing-subscriber = "0.3"
 tokio = "1.28"
