@@ -2,7 +2,7 @@ use proc_qq::re_exports::ricq::version::ANDROID_WATCH;
 use proc_qq::*;
 use std::sync::Arc;
 
-mod ping_module;
+mod module;
 use qq_bot::init_tracing_subscriber;
 
 #[result]
@@ -23,11 +23,10 @@ pub async fn on_result(result: &EventResult) -> anyhow::Result<bool> {
     Ok(false)
 }
 
-
 #[tokio::main]
 async fn main() {
-    let modules = vec![ping_module::module()];
-    
+    let modules = module::get_module();
+
     init_tracing_subscriber();
     let client = ClientBuilder::new()
         .authentication(Authentication::QRCode)

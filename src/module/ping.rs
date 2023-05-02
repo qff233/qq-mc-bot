@@ -1,15 +1,17 @@
-use std::net::SocketAddr;
-
 use base64::{engine::general_purpose, Engine as _};
+use dns_lookup::lookup_host;
+use json;
 use proc_qq::{
     event, module, LoginEvent, MessageChainParseTrait, MessageSendToSourceTrait, Module,
 };
 use proc_qq::{re_exports::ricq::client::event::GroupMessageEvent, MessageChainAppendTrait};
-
-use dns_lookup::lookup_host;
-use json;
+use std::net::SocketAddr;
 use tokio::io::{AsyncReadExt, AsyncWriteExt, BufReader};
 use tokio::net::TcpStream;
+
+pub fn module() -> Module {
+    module!("ping", "ping", login, ping, mc_ping)
+}
 
 #[event]
 async fn login(event: &LoginEvent) -> anyhow::Result<bool> {
@@ -276,12 +278,10 @@ async fn mc_ping(event: &GroupMessageEvent, host: String) -> anyhow::Result<bool
                 }
             }
         } else {
-            event.send_message_to_source(data.parse_message_chain()).await?;
+            event
+                .send_message_to_source(data.parse_message_chain())
+                .await?;
         }
     }
     Ok(true)
-}
-
-pub fn module() -> Module {
-    module!("ping", "ping", login, ping, mc_ping)
 }

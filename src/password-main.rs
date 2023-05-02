@@ -2,7 +2,7 @@ use proc_qq::re_exports::ricq::version::ANDROID_PHONE;
 use proc_qq::*;
 use std::sync::Arc;
 
-mod ping_module;
+mod module;
 use qq_bot::init_tracing_subscriber;
 
 #[result]
@@ -34,7 +34,7 @@ async fn main() {
         .session_store(Box::new(FileSessionStore {
             path: "session.token".to_string(),
         }))
-        .modules(vec![ping_module::module()])
+        .modules(module::get_module())
         .result_handlers(vec![on_result {}.into()])
         .build()
         .await
